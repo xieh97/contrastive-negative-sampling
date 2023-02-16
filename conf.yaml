@@ -1,0 +1,114 @@
+trial_series: YOUR_OUTPUT_DIR
+
+trial_base: YOUR_OUTPUT_PATH
+
+
+# Configure ray-tune clusters
+ray_conf:
+    init_args:
+        num_cpus: 1
+        num_gpus: 1
+        local_mode: false
+        ignore_reinit_error: true
+        include_dashboard: false
+        _temp_dir: YOUR_OUTPUT_PATH/ray
+
+    trial_stopper: TrialPlateauStopper
+    stopper_args:
+        metric: stop_metric
+        std: 0.001
+        num_results: 10
+        grace_period: 60
+        mode: min
+
+
+# Configure training, validation, and evaluation data
+data_conf:
+    train_data: # training data
+        dataset: YOUR_DATASET_PATH/Clotho
+        audio_data: development_audio_logmels.hdf5
+        text_data: development_text.csv
+        word_embeds: word2vec_embeds.pkl
+
+    val_data: # validation data
+        dataset: YOUR_DATASET_PATH/Clotho
+        audio_data: validation_audio_logmels.hdf5
+        text_data: validation_text.csv
+        word_embeds: word2vec_embeds.pkl
+
+    eval_data: # evaluation data
+        dataset: YOUR_DATASET_PATH/Clotho
+        audio_data: evaluation_audio_logmels.hdf5
+        text_data: evaluation_text.csv
+        word_embeds: word2vec_embeds.pkl
+
+
+# Configure hyper-parameters
+param_conf:
+    num_epoch: 120
+    batch_size: 32
+    model: CRNNWordModel
+    criterion: triplet_loss
+    optimizer: AdamOptimizer
+    lr_scheduler: ReduceLROnPlateau
+    metrics:
+        - triplet_loss
+
+
+# Model definitions
+CRNNWordModel:
+    name: CRNNWordModel
+    out_norm: L2 # L2 or Null
+
+    audio_enc: # audio encoder
+        in_dim: 64
+        out_dim: 300
+        up_sampling: linear # linear or Null
+
+    text_enc: # text encoder
+        embed_mod:
+            args:
+                num_embeddings: Null
+                embedding_dim: 300
+                _weight: Null
+            init: prior # rand or prior
+            trainable: false
+
+
+# Criteria
+criteria:
+    triplet_loss:
+        name: TripletLoss
+        args:
+            margin: 0.5
+            sampling: random-NS # see other options in "criterion_utils.py"
+
+
+# Metrics
+metrics:
+    triplet_loss:
+        name: TripletLoss
+        args:
+            margin: 0.5
+            sampling: random-NS
+
+
+# Optimizer definitions
+AdamOptimizer:
+    name: Adam
+    args:
+        lr: 0.001
+        weight_decay: 0.0
+
+
+# Learning rate scheduler definitions
+ReduceLROnPlateau:
+    name: ReduceLROnPlateau
+    args:
+        mode: min
+        factor: 0.1
+        patience: 5
+        threshold: 0.005
+        threshold_mode: abs
+        min_lr: 0.000001
+        verbose: true
