@@ -3,7 +3,7 @@
 This repository provides source code for [our paper](https://arxiv.org/abs/2211.04070):
 
 ```
-@unpublished{Xie2023On,
+@InProceedings{Xie2023On,
     author = {Xie, Huang and Räsänen, Okko and Virtanen, Tuomas},
     title = {{On Negative Sampling for Contrastive Audio-Text Retrieval}},
     booktitle = {ICASSP 2023 - 2023 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
