@@ -1,4 +1,4 @@
-# Negative Sampling for Contrastive Audio-Text Retrieval (Accepted at ICASSP 2023)
+# Negative Sampling for Contrastive Audio-Text Retrieval (ICASSP 2023)
 
 This repository provides source code for [our paper](https://arxiv.org/abs/2211.04070):
 
@@ -6,8 +6,10 @@ This repository provides source code for [our paper](https://arxiv.org/abs/2211.
 @unpublished{Xie2023On,
     author = {Xie, Huang and Räsänen, Okko and Virtanen, Tuomas},
     title = {{On Negative Sampling for Contrastive Audio-Text Retrieval}},
+    booktitle = {ICASSP 2023 - 2023 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
     year = {2023},
-    note = {\href{https://arxiv.org/abs/2211.04070}{arXiv preprint arXiv:2211.04070}},
+    pages = {1-5},
+    doi = {10.1109/ICASSP49357.2023.10095319}
 }
 ```
 
